@@ -96,11 +96,16 @@
                 <p id="textoDetalle" style="font-size: 1.1rem; color: #333; line-height: 1.6; margin: 0;"></p>
             </div>
             
-            <button class="btn-comprar" onclick="copiarTexto()" style="background: #27ae60; margin-bottom: 10px;">
+            <button class="btn-comprar" onclick="copiarTexto()" style="background: #27ae60; margin-bottom: 10px; width: 100%;">
                 📋 Copiar Datos de Pago
             </button>
+
+            <!-- BOTÓN DE WHATSAPP -->
+            <button class="btn-comprar" onclick="enviarConfirmacionWS()" style="background: #25d366; border: none; margin-bottom: 15px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <span>Verifiqué mi pago por WhatsApp</span> ✅
+            </button>
             
-            <button onclick="volverAlMenu()" style="background: none; border: none; color: #666; cursor: pointer; text-decoration: underline; font-size: 0.9rem;">
+            <button onclick="volverAlMenu()" style="background: none; border: none; color: #666; cursor: pointer; text-decoration: underline; font-size: 0.9rem; width: 100%;">
                 Volver a elegir método
             </button>
         </div>
@@ -110,40 +115,39 @@
 
 <!-- Lógica de Funcionamiento -->
 <script>
-    // Configura aquí tus datos reales
+    // Configuración de tus cuentas
     const datosCuentas = {
-        'paypal': '<b>Correo PayPal:</b><br>paypal.me/streamzy<br>(Enviar como pago neto)',
-        'binance': '<b>Binance ID:</b><br>123456789<br><b>Nombre:</b> Cristopher D.',
-        'zinli': '<b>Correo Zinli:</b><br>pago@streamzy.ve',
-        'pagomovil': '<b>Banco:</b> Bancamiga (0172)<br><b>Cédula:</b> V-12.345.678<br><b>Teléfono:</b> 0412-5555555'
+        'paypal': '<b>cristopherabrahamd@gmail.com:</b><br>paypal.me/streamzy<br>(Enviar como pago neto)',
+        'binance': '<b>ID Pay: 720262761:</b><br><b>Nombre:</b> Cristopher D.',
+        'zinli': '<b>Correo Zinli:</b><br>cristopherabrahamd@gmail.com',
+        'pagomovil': '<b>Banco:</b> Venezuela (0102)<br><b>Cédula:</b> V-31937013<br><b>Teléfono:</b> 4122959390'
     };
 
+    let productoActual = "";
+    let precioActual = "";
+
     function abrirModal(nombre, precio) {
+        productoActual = nombre;
+        precioActual = precio;
         const modal = document.getElementById('modalPago');
         modal.style.display = "block";
         document.getElementById('infoProducto').innerText = nombre;
         document.getElementById('subtituloModal').innerText = "Total a pagar: $" + precio;
-        
-        // Siempre abrir en el paso 1 (menú)
         volverAlMenu();
     }
 
     function mostrarDetalle(metodo) {
         document.getElementById('menuPagos').style.display = "none";
-        document.getElementById('subtituloModal').innerText = "Datos para realizar la transferencia:";
-        
-        const detalleArea = document.getElementById('detallePago');
-        detalleArea.style.display = "block";
-        
+        document.getElementById('subtituloModal').innerText = "Datos para realizar el pago:";
+        document.getElementById('detallePago').style.display = "block";
         document.getElementById('textoDetalle').innerHTML = datosCuentas[metodo];
     }
 
     function volverAlMenu() {
         document.getElementById('menuPagos').style.display = "grid";
         document.getElementById('detallePago').style.display = "none";
-        // Si ya sabemos el precio, lo mantenemos en el subtítulo
-        if(document.getElementById('infoProducto').innerText !== "Finalizar Compra") {
-             // No hace falta cambiar nada
+        if(productoActual !== "") {
+            document.getElementById('subtituloModal').innerText = "Total a pagar: $" + precioActual;
         }
     }
 
@@ -152,21 +156,23 @@
     }
 
     function copiarTexto() {
-        // Obtenemos solo el texto (sin etiquetas HTML)
         const contenedor = document.getElementById('textoDetalle');
         const textoParaCopiar = contenedor.innerText || contenedor.textContent;
-        
         navigator.clipboard.writeText(textoParaCopiar).then(() => {
-            alert("¡Datos copiados! Realiza el pago y guarda tu comprobante.");
+            alert("¡Datos copiados! Realiza tu pago y luego pulsa el botón de WhatsApp.");
         });
     }
 
-    // Cerrar al hacer clic fuera del cuadro blanco
+    function enviarConfirmacionWS() {
+        const mensaje = `Hola Streamzy! 👋 He realizado el pago de mi pedido:\n\n*Producto:* ${productoActual}\n*Monto:* $${precioActual}\n\nAquí adjunto el comprobante.`;
+        const telefono = "584122959390"; 
+        const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, '_blank');
+    }
+
     window.onclick = function(event) {
         const modal = document.getElementById('modalPago');
-        if (event.target == modal) {
-            cerrarModal();
-        }
+        if (event.target == modal) { cerrarModal(); }
     }
 </script>
 
