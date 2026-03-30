@@ -1,1 +1,1 @@
-web: gunicorn Streamzy_Project.wsgi
+web: gunicorn tienda.wsgi
