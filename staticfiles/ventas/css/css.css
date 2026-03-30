@@ -1,0 +1,117 @@
+/* Configuración General */
+:root {
+    --azul: #0066ff;
+    --naranja: #ff6600;
+    --verde: #27ae60;
+    --fondo: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fondo);
+    margin: 0;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    background: #1a1a1a;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.logo span { color: var(--azul); font-weight: bold; }
+
+.menu { list-style: none; display: flex; gap: 20px; }
+.menu a { color: white; text-decoration: none; font-weight: 500; }
+
+/* Header Hero */
+.hero-tienda {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000');
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+/* Cuadrícula de Productos */
+.container { max-width: 1100px; margin: -50px auto 50px; padding: 0 20px; }
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s ease;
+}
+
+.card:hover { transform: translateY(-10px); }
+
+.preview-img { height: 150px; position: relative; }
+
+.tag {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--naranja);
+    color: white;
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 4px;
+}
+
+.card-body { padding: 20px; }
+
+.categoria { font-size: 12px; color: var(--azul); font-weight: bold; text-transform: uppercase; }
+
+/* Precios en Dólares */
+.precio-box {
+    margin: 15px 0;
+    display: flex;
+    align-items: baseline;
+}
+
+.moneda { font-size: 20px; font-weight: bold; color: var(--verde); }
+.monto { font-size: 30px; font-weight: 800; margin-left: 2px; }
+
+.btn-comprar {
+    width: 100%;
+    background: var(--azul);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Sección de Pagos */
+.pagos-section {
+    margin-top: 60px;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.grid-pagos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.pago-item {
+    background: #f1f3f5;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+}
