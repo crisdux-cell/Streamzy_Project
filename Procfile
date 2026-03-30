@@ -1,0 +1,1 @@
+web: gunicorn Streamzy_Project.wsgi
