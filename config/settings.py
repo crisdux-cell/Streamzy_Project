@@ -23,9 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(f)e)e)sdmur3%t_kujzh6)r+k&51=vc8$qb5f+yt(-t#9gtpx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+# --- AÑADE ESTO AL FINAL (MUY IMPORTANTE) ---
+import os
+PORT = os.environ.get('PORT', '8080')
 
 
 # Application definition
