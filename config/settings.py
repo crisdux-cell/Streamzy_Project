@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -120,6 +121,8 @@ STATIC_URL = 'static/'
 
 # Esta es la carpeta donde Django RECOGE todo (la crea él solo)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Esto ayuda a que los archivos carguen más rápido y se compriman
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Esta es la carpeta donde TÚ trabajas (tu carpeta tienda/static)
 STATICFILES_DIRS = [
