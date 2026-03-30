@@ -1,1 +1,1 @@
-web: gunicorn tienda.wsgi
+web: gunicorn config.wsgi
