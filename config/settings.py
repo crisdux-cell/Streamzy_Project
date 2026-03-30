@@ -117,16 +117,18 @@ USE_TZ = True
 
 # --- CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS ---
 
-STATIC_URL = 'static/'
+import os
 
-# Esta es la carpeta donde Django RECOGE todo (la crea él solo)
+STATIC_URL = '/static/' # Agrégale la barra diagonal al principio
+
+# Donde Django guarda todo para producción
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# Esto ayuda a que los archivos carguen más rápido y se compriman
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Esta es la carpeta donde TÚ trabajas (tu carpeta tienda/static)
+# La carpeta de trabajo real
 STATICFILES_DIRS = [
-    BASE_DIR / 'tienda' / 'static',
+    BASE_DIR / 'tienda' / 'static', 
 ]
 
-# -------------------------------------------
+# Esto es CLAVE: Si un archivo falta, que no rompa la app
+WHITENOISE_MANIFEST_STRICT = False 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
