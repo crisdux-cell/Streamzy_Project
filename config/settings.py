@@ -141,3 +141,5 @@ STATICFILES_DIRS = [
 # Esto es CLAVE: Si un archivo falta, que no rompa la app
 WHITENOISE_MANIFEST_STRICT = False 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
