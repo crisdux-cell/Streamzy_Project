@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamzy Marketplace - Scripts en USD</title>
+    <title>Streamzy Marketplace - Tienda Oficial</title>
     <link rel="stylesheet" href="{% static 'ventas/css/css.css' %}">
 </head>
 <body>
@@ -12,169 +12,55 @@
 <nav class="navbar">
     <div class="logo">STREAMZY<span>.SHOP</span></div>
     <ul class="menu">
-        <li><a href="#">Inicio</a></li>
+        <li><a href="{% url 'home' %}">Inicio</a></li>
         <li><a href="#pagos">Métodos de Pago</a></li>
+        {% if user.is_staff %}
+        <li><a href="{% url 'admin_tienda' %}" style="color: #ffcc00;">Panel Admin</a></li>
+        {% endif %}
     </ul>
 </nav>
 
 <header class="hero-tienda">
-    <h1>Catálogo de Scripts & Plantillas</h1>
-    <p>Adquiere códigos profesionales en Dólares (USD)</p>
+    <h1>Catálogo de Productos</h1>
+    <p>Adquiere calidad profesional en Dólares (USD)</p>
 </header>
 
 <main class="container">
     <div class="grid-productos">
         
-        <!-- Producto 1 -->
+        {% for producto in productos %}
         <div class="card">
-            <div class="preview-img" style="background-color: #0066ff;">
-                <span class="tag">OFERTA</span>
+            <div class="preview-img" style="background-image: url('{{ producto.imagen.url }}'); background-size: cover; background-position: center;">
+                {% if producto.stock < 5 %}
+                <span class="tag" style="background: #e74c3c;">¡ÚLTIMOS!</span>
+                {% else %}
+                <span class="tag">{{ producto.categoria.nombre }}</span>
+                {% endif %}
             </div>
             <div class="card-body">
-                <span class="categoria">HTML / JS</span>
-                <h3>Portal Movilnet Pro</h3>
-                <p>Landing page con validación y captcha dinámico.</p>
+                <span class="categoria">{{ producto.categoria.nombre }}</span>
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.descripcion }}</p>
                 <div class="precio-box">
                     <span class="moneda">$</span>
-                    <span class="monto">15.00</span>
+                    <span class="monto">{{ producto.precio }}</span>
                 </div>
-                <button class="btn-comprar" onclick="abrirModal('Portal Movilnet Pro', '15.00')">Comprar ahora</button>
+                <button class="btn-comprar" onclick="abrirModal('{{ producto.nombre }}', '{{ producto.precio }}')">Comprar ahora</button>
             </div>
         </div>
-
-        <!-- Producto 2 -->
-        <div class="card">
-            <div class="preview-img" style="background-color: #27ae60;">
-                <span class="tag premium">PREMIUM</span>
-            </div>
-            <div class="card-body">
-                <span class="categoria">Django / SQL</span>
-                <h3>Sistema Inmobiliario</h3>
-                <p>Gestión de propiedades con base de datos Postgres.</p>
-                <div class="precio-box">
-                    <span class="moneda">$</span>
-                    <span class="monto">45.00</span>
-                </div>
-                <button class="btn-comprar" onclick="abrirModal('Sistema Inmobiliario', '45.00')">Comprar ahora</button>
-            </div>
-        </div>
+        {% empty %}
+        <p>No hay productos disponibles por el momento.</p>
+        {% endfor %}
 
     </div>
 </main>
 
-<!-- --- VENTANA EMERGENTE (MODAL) INTERACTIVA --- -->
 <div id="modalPago" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
-        <h2 id="infoProducto" style="color: #333; margin-bottom: 5px;">Finalizar Compra</h2>
-        <p id="subtituloModal" style="color: #666; margin-bottom: 20px;">Selecciona cómo deseas pagar:</p>
-        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
-
-        <!-- PASO 1: Menú de selección de métodos -->
-        <div id="menuPagos" class="grid-pagos-modal">
-            <div class="pago-card" onclick="mostrarDetalle('paypal')">
-                <div style="font-size: 2rem; margin-bottom: 5px;">🅿️</div>
-                <strong>PayPal</strong>
-            </div>
-            <div class="pago-card" onclick="mostrarDetalle('binance')">
-                <div style="font-size: 2rem; margin-bottom: 5px;">🔶</div>
-                <strong>Binance Pay</strong>
-            </div>
-            <div class="pago-card" onclick="mostrarDetalle('zinli')">
-                <div style="font-size: 2rem; margin-bottom: 5px;">💜</div>
-                <strong>Zinli</strong>
-            </div>
-            <div class="pago-card" onclick="mostrarDetalle('pagomovil')">
-                <div style="font-size: 2rem; margin-bottom: 5px;">💸</div>
-                <strong>Pago Móvil</strong>
-            </div>
-        </div>
-
-        <!-- PASO 2: Detalle de los datos de pago -->
-        <div id="detallePago" style="display: none; padding: 10px;">
-            <div style="background: #f0f5ff; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #0066ff;">
-                <p id="textoDetalle" style="font-size: 1.1rem; color: #333; line-height: 1.6; margin: 0;"></p>
-            </div>
-            
-            <button class="btn-comprar" onclick="copiarTexto()" style="background: #27ae60; margin-bottom: 10px; width: 100%;">
-                📋 Copiar Datos de Pago
-            </button>
-
-            <!-- BOTÓN DE WHATSAPP -->
-            <button class="btn-comprar" onclick="enviarConfirmacionWS()" style="background: #25d366; border: none; margin-bottom: 15px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <span>Verifiqué mi pago por WhatsApp</span> ✅
-            </button>
-            
-            <button onclick="volverAlMenu()" style="background: none; border: none; color: #666; cursor: pointer; text-decoration: underline; font-size: 0.9rem; width: 100%;">
-                Volver a elegir método
-            </button>
-        </div>
-
     </div>
-</div>
 
-<!-- Lógica de Funcionamiento -->
 <script>
-    // Configuración de tus cuentas
-    const datosCuentas = {
-        'paypal': '<b>cristopherabrahamd@gmail.com:</b><br>paypal.me/streamzy<br>(Enviar como pago neto)',
-        'binance': '<b>ID Pay: 720262761:</b><br><b>Nombre:</b> Cristopher D.',
-        'zinli': '<b>Correo Zinli:</b><br>cristopherabrahamd@gmail.com',
-        'pagomovil': '<b>Banco:</b> Venezuela (0102)<br><b>Cédula:</b> V-31937013<br><b>Teléfono:</b> 4122959390'
-    };
-
-    let productoActual = "";
-    let precioActual = "";
-
-    function abrirModal(nombre, precio) {
-        productoActual = nombre;
-        precioActual = precio;
-        const modal = document.getElementById('modalPago');
-        modal.style.display = "block";
-        document.getElementById('infoProducto').innerText = nombre;
-        document.getElementById('subtituloModal').innerText = "Total a pagar: $" + precio;
-        volverAlMenu();
-    }
-
-    function mostrarDetalle(metodo) {
-        document.getElementById('menuPagos').style.display = "none";
-        document.getElementById('subtituloModal').innerText = "Datos para realizar el pago:";
-        document.getElementById('detallePago').style.display = "block";
-        document.getElementById('textoDetalle').innerHTML = datosCuentas[metodo];
-    }
-
-    function volverAlMenu() {
-        document.getElementById('menuPagos').style.display = "grid";
-        document.getElementById('detallePago').style.display = "none";
-        if(productoActual !== "") {
-            document.getElementById('subtituloModal').innerText = "Total a pagar: $" + precioActual;
-        }
-    }
-
-    function cerrarModal() {
-        document.getElementById('modalPago').style.display = "none";
-    }
-
-    function copiarTexto() {
-        const contenedor = document.getElementById('textoDetalle');
-        const textoParaCopiar = contenedor.innerText || contenedor.textContent;
-        navigator.clipboard.writeText(textoParaCopiar).then(() => {
-            alert("¡Datos copiados! Realiza tu pago y luego pulsa el botón de WhatsApp.");
-        });
-    }
-
-    function enviarConfirmacionWS() {
-        const mensaje = `Hola Streamzy! 👋 He realizado el pago de mi pedido:\n\n*Producto:* ${productoActual}\n*Monto:* $${precioActual}\n\nAquí adjunto el comprobante.`;
-        const telefono = "584122959390"; 
-        const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-        window.open(url, '_blank');
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('modalPago');
-        if (event.target == modal) { cerrarModal(); }
-    }
+    // ... (Todo tu código de JS para el modal y WhatsApp) ...
 </script>
 
 </body>
-</html> 
+</html>
