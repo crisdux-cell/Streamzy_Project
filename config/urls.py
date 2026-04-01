@@ -4,11 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.register),
-    # Esta línea le dice a Django que las rutas están en la app 'tienda'
-    path('', include('tienda.urls')), 
+    # ¡REVISA ESTA LÍNEA! Debe decir .site.urls
+    path('admin/', admin.site.urls), 
+    
+    # Tu app principal
+    path('', include('tienda.urls')),
 ]
 
-# Esto es para que las fotos de tus productos se vean en desarrollo
+# Para que se vean las imágenes de Streamzy en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
