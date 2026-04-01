@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(f)e)e)sdmur3%t_kujzh6)r+k&51=vc8$qb5f+yt(-t#9gtpx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1']
 # --- AÑADE ESTO AL FINAL (MUY IMPORTANTE) ---
 import os
 PORT = os.environ.get('PORT', '8080')
