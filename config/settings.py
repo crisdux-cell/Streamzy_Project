@@ -26,6 +26,11 @@ SECRET_KEY = 'django-insecure-(f)e)e)sdmur3%t_kujzh6)r+k&51=vc8$qb5f+yt(-t#9gtpx
 DEBUG = True
 
 ALLOWED_HOSTS = ['streamzyproject-production.up.railway.app', 'localhost', '127.0.0.1']
+# Permite que Django confíe en el dominio de Railway para formularios (CSRF)
+CSRF_TRUSTED_ORIGINS = [
+    'https://streamzyproject-production.up.railway.app',
+    'https://*.up.railway.app' # Esto cubre cualquier subdominio de Railway
+]
 # --- AÑADE ESTO AL FINAL (MUY IMPORTANTE) ---
 import os
 PORT = os.environ.get('PORT', '8080')
