@@ -5,9 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.register),
-    path('', include('tienda.urls')), # Asegúrate de que tu app se llame tienda
+    # Esta línea le dice a Django que las rutas están en la app 'tienda'
+    path('', include('tienda.urls')), 
 ]
 
-# Esto permite ver las fotos de los productos en el navegador
+# Esto es para que las fotos de tus productos se vean en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
