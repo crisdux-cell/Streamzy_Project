@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(f)e)e)sdmur3%t_kujzh6)r+k&51=vc8$qb5f+yt(-t#9gtpx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['streamzyproject-production.up.railway.app', 'localhost', '127.0.0.1']
 # --- AÑADE ESTO AL FINAL (MUY IMPORTANTE) ---
 import os
 PORT = os.environ.get('PORT', '8080')
@@ -45,13 +45,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <--- SÚBELO AQUÍ
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
